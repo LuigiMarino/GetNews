@@ -16,6 +16,8 @@ for new in result:
     news += ("%s- "%i)
     news += new.text.strip()
     news += "\n"
+    news += articleLink
+    news += "\n"
     i += 1
 
 #User Details
