@@ -1,33 +1,37 @@
-#!/usr/bin/python3
-
 from bs4 import BeautifulSoup
+import re
 import requests
 import smtplib
 from email.mime.multipart import MIMEMultipart
+from datetime import date
 
-i = 1
+#Get Todays date and store as a variable
+today = date.today()
+
+#Empty News String
 news = ""
+i = 1
+#Request Reuters Website
+r = requests.get("https://uk.reuters.com/")
+page = BeautifulSoup(r.text, 'html.parser')
 
-r = requests.get("https://www.reuters.com/news/technology")
-soup = BeautifulSoup(r.text, 'html.parser')
-result = soup.find_all('h3', attrs = {'class' : 'story-title'})
+#Find all <a> tags with href containing "/article"
+for link in page.find_all('a', attrs={'href': re.compile("/article/")}):
+    title = (("Title: {}".format(link.text.strip()))+"\n")
+    link = (("https://uk.reuters.com/{}".format(link.get("href")))+"\n")
 
-for new in result:
-    news += ("%s- "%i)
-    news += new.text.strip()
-    news += "\n"
-    news += articleLink
-    news += "\n"
-    i += 1
+    news += ("%s-%s\n%s\n"%(i,title,link))
+#Print for testing purposes
+#print(news)
 
 #User Details
 gmail_user = 'emails@luigi-marino.com'
 gmail_password = '*7gMaH1aGf31'
 sent_from = gmail_user
-to = ['emails@luigi-marino.com']
+to = ['me@onenote.com']
 
 #Email Title
-msg = """Subject: Raspberry Pi News"""
+msg = str(today) + "\n"
 
 #Add news to email message
 msg += news
@@ -42,5 +46,3 @@ try:
     print ('Email Sent!')
 except:
     print ('Something went wrong')
-
-#print(news)
