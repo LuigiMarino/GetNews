@@ -21,6 +21,8 @@ for link in page.find_all('a', attrs={'href': re.compile("/article/")}):
     link = (("https://uk.reuters.com/{}".format(link.get("href")))+"\n")
 
     news += ("%s-%s\n%s\n"%(i,title,link))
+    i += 1
+    
 #Print for testing purposes
 #print(news)
 
