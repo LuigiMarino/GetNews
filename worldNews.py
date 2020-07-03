@@ -19,7 +19,7 @@ items = page.find_all('a', attrs={'href': re.compile("/article/")})
 
 #Find all <a> tags with href containing "/article"
 for link in items[1:16]:
-    title = (("Title: {}".format(link.text.strip()))+"\n")
+    title = (("{}".format(link.text.strip()))+"\n")
     link = (("https://uk.reuters.com/{}".format(link.get("href")))+"\n")
 
     news += ("%s-%s%s\n"%(i,title,link))
