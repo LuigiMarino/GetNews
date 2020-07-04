@@ -15,13 +15,13 @@ i = 1
 r = requests.get("https://uk.reuters.com/")
 page = BeautifulSoup(r.text, 'html.parser')
 
+#Get all <a> tags in the page with href beginning with /node/
 items = page.find_all('a', attrs={'href': re.compile("/article/")})
 
 #Find all <a> tags with href containing "/article"
-for link in items[1:16]:
-    title = (("{}".format(link.text.strip()))+"\n")
-    link = (("https://uk.reuters.com/{}".format(link.get("href")))+"\n")
-
+for item in items[1:5]:
+    title = (("{}".format(item.text.strip()))+"\n")
+    link = (("https://uk.reuters.com{}".format(item.get("href")))+"\n")
     news += ("%s-%s%s\n"%(i,title,link))
     i += 1
     
@@ -30,16 +30,22 @@ for link in items[1:16]:
 
 #User Details
 gmail_user = 'emails@luigi-marino.com'
-gmail_password = ''
+gmail_password = '*'
 sent_from = gmail_user
 to = ['me@onenote.com']
 
+#Email Subject
+msg = 'Subject: @World News' + "\n"
+
 #Email Title
-msg = str(today) + "\n"
+msg += str(today) + "\n"
 
 #Add news to email message
 msg += news
 
+print(msg)
+
+#Try block for sending email
 try:
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
