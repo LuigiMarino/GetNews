@@ -30,7 +30,7 @@ for link in items[1:16]:
 
 #User Details
 gmail_user = 'emails@luigi-marino.com'
-gmail_password = '*7gMaH1aGf31'
+gmail_password = ''
 sent_from = gmail_user
 to = ['me@onenote.com']
 
